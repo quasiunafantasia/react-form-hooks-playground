@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Maybe } from './types';
 
 export type Validator<T, Errors> = (value: T) => Maybe<Errors>;

@@ -1,8 +1,22 @@
 import { testHook } from '../tests/mount-hook';
 import { act } from 'react-dom/test-utils';
-import { useFormControl, FormControlApi } from './use-form-control';
+import { useFormControl, FormControlApi } from './useFormControl';
+import {useValidationRunner} from './useValidationRunner';
 
-describe('useForm', () => {
+jest.mock('./useValidationRunner', () => {
+    const validate = jest.fn();
+
+    return {
+        useValidationRunner: jest.fn().mockImplementation(() => {
+            return {
+                validate
+            }
+        })
+    };
+});
+
+
+describe('useFormControl', () => {
     const initialState = {a: 1, b: 2};
     let sut: FormControlApi;
 
@@ -58,25 +72,13 @@ describe('useForm', () => {
             });
 
             it('should apply validation on change', () => {
-                const newValue = 'some new value';
-                act(() => {
-                    sut.setValue(newValue);
-                });
-
-                expect(validator).toHaveBeenCalledWith(newValue);
-            });
-
-            it('should set errors', () => {
-                const newValue = 'some new value';
-                const error = 'Required';
-
-                validator.mockReturnValue(error);
+                const mockValidate = useValidationRunner('some value', () => 'some error').validate;
 
                 act(() => {
-                    sut.setValue(newValue);
+                    sut.setValue('some new value');
                 });
 
-                expect(sut.error).toEqual(error);
+                expect(mockValidate).toHaveBeenCalled();
             });
         });
     });

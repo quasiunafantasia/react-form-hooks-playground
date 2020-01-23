@@ -1,11 +1,14 @@
 import React from 'react';
 import { mount } from 'enzyme';
+import { act } from 'react-dom/test-utils';
 
-const TestHook = ({ callback }) => {
-    callback();
+const TestHook = ({ callback }: {callback: Function}) => {
+    act(() => callback());
     return null;
 };
 
 export const testHook = (callback: Function) => {
-    return mount(<TestHook callback={callback} />);
+    return act(() => {
+        mount(<TestHook callback={callback} />);
+    });
 };

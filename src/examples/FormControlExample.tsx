@@ -1,49 +1,78 @@
 import React, { ChangeEvent, useState } from 'react';
-import { useFormControl, UpdateOn } from '../lib/useFormControl';
+import { DEBOUNCE_STRATEGY } from '../lib/model-update/strategies/debounceOnChangeStrategy';
+import { ON_BLUR_STRATEGY } from '../lib/model-update/strategies/onBlurStrategy';
+import { ON_CHANGE_STRATEGY } from '../lib/model-update/strategies/onChangeStrategy';
+import { UPDATE_STRATEGY } from '../lib/model-update/strategies/strategy.type';
+import { VALIDITY_STATUSES } from '../lib/model-update/usePreValidator';
+import { useFormControl } from '../lib/useFormControl';
+
 
 export const FormControlExample = () => {
-    const validator = (value: any) => value && value.length > 5 ? 'Too long' : undefined;
-    const [updateStrategy, setUpdateStrategy] = useState<UpdateOn>('change');
+    const validator = (value: any) => value && value.length > 7 ? 'Too long' : undefined;
+    const asyncValidator = (value: any) => new Promise(resolve => setTimeout(() => {
+        if (value && value[0] !== value[0].toUpperCase()) {
+            resolve('Should start with capital (async)');
+        }
+        resolve();
+    }, 1000));
+
+    const [updateStrategy, setUpdateStrategy] = useState<UPDATE_STRATEGY>(ON_CHANGE_STRATEGY);
     const {
         value,
-        innerValue,
         setValue,
+        status,
         error,
         blur
     } = useFormControl({
-        defaultValue: '',
+        defaultValue: 'hello',
         validator,
-        updateOn: updateStrategy
+        asyncValidator,
+        updateOn: updateStrategy,
+        debounce: 1000
     });
 
     const onUpdateStrategySelect = (e: ChangeEvent<HTMLInputElement>) => {
-      setUpdateStrategy(e.target.value as UpdateOn);
+        setUpdateStrategy(e.target.value as UPDATE_STRATEGY);
     };
 
     return <div>
+        UPDATE STRATEGY: {updateStrategy}
         <div className="radio">
             <label>
-                <input type="radio" value="change" checked={updateStrategy === 'change'}
+                <input type="radio" value={ON_CHANGE_STRATEGY} checked={updateStrategy === ON_CHANGE_STRATEGY}
                        onChange={onUpdateStrategySelect}/>
                 On change
             </label>
         </div>
         <div className="radio">
             <label>
-                <input type="radio" value="blur" checked={updateStrategy === 'blur'}
+                <input type="radio" value={ON_BLUR_STRATEGY} checked={updateStrategy === ON_BLUR_STRATEGY}
                        onChange={onUpdateStrategySelect}/>
                 On blur
+            </label>
+        </div>
+        <div className="radio">
+            <label>
+                <input type="radio" value={DEBOUNCE_STRATEGY} checked={updateStrategy === DEBOUNCE_STRATEGY}
+                       onChange={onUpdateStrategySelect}/>
+                Debounce 500
             </label>
         </div>
 
         {/* TODO use hook to pass props */}
         <input type="text"
-               value={innerValue}
+            // value={innerValue}
                onChange={e => setValue(e.target.value)}
                onBlur={blur}
         />
 
         <div>Error: {error}</div>
         <div>Value: {value}</div>
+        <div>Status: {VALIDITY_STATUSES[status]}</div>
     </div>
 };
+
+// FormControlExample.whyDidYouRender = {
+//     logOnDifferentValues: true,
+//     trackHooks: true
+// };

@@ -1,60 +1,67 @@
-import { MutableRefObject, useCallback, useEffect, useState } from 'react';
-import { Maybe, StateSetter } from './types';
-import { useValidationRunner, Validator } from './useValidationRunner';
+import { MutableRefObject, useCallback, useState } from 'react';
+import { createUseDebounceOnChangeStrategy, isDebounceStrategy } from './model-update/strategies/debounceOnChangeStrategy';
+import { createUseOnBlur, isOnBlurStrategy } from './model-update/strategies/onBlurStrategy';
+import { createUseOnChange, isOnchangeStrategy, ON_CHANGE_STRATEGY } from './model-update/strategies/onChangeStrategy';
+import { UPDATE_STRATEGY } from './model-update/strategies/strategy.type';
+import { AsyncValidator, usePreValidator, Validator } from './model-update/usePreValidator';
+import { useStrategyRunner } from './model-update/useStrategyRunner';
+import { StateSetter } from './types';
 
-export type FormControlConfig<T, Errors> = Partial<{
-    defaultValue: T;
-    updateOn: UpdateOn;
-    validator: Validator<T, Errors>;
-    ref: MutableRefObject<HTMLElement>
-}>
 
-export interface FormControlApi<T = any, Errors = string> {
-    value: Maybe<T>;
-    innerValue: Maybe<T>;
-    setValue: StateSetter<T>;
-    error: Maybe<Errors>;
-    focus: () => void;
-    blur: () => void;
-}
+export type FormControlConfig<T, Errors, AsyncErrors> = {
+    defaultValue?: T;
+    updateOn?: UPDATE_STRATEGY;
+    validator?: Validator<T, Errors>;
+    asyncValidator?: AsyncValidator<T, AsyncErrors>;
+    ref?: MutableRefObject<HTMLElement>;
+    debounce?: number;
+};
 
-export type UpdateOnBlur = 'blur';
-export type UpdateOnChange = 'change';
+// export interface FormControlApi<T = any, Errors = string> {
+//     value: Maybe<T>;
+//     innerValue: Maybe<T>;
+//     setValue: StateSetter<T>;
+//     error: Maybe<Errors>;
+//     focus: () => void;
+//     blur: () => void;
+// }
 
-// todo add debounce
-
-export type UpdateOn = UpdateOnBlur | UpdateOnChange;
-
-export function useFormControl<T = any, Errors = string>(config: FormControlConfig<T, Errors> = {}) {
-    const noopValidator = () => undefined;
-
+export function useFormControl<T = any, Errors = string, AsyncErrors = string>(config: FormControlConfig<T, Errors, AsyncErrors> = {}) {
     const defaultValue = config.defaultValue;
-    const validator = config.validator || noopValidator;
-    const updateOn = config.updateOn || 'change';
-
-    const [innerValue, setInnerValue] = useState(defaultValue);
-    const [value, setValue] = useState(defaultValue);
+    const updateOn: UPDATE_STRATEGY = config.updateOn || ON_CHANGE_STRATEGY;
     const [isBlurred, setBlurred] = useState(true);
-    const {error, validate} = useValidationRunner(innerValue, validator);
+    const [innerValue, setInnerValue] = useState(defaultValue);
 
-    const commitValue = useCallback(() => {
-        validate();
-        if (!error) {
-            setValue(innerValue);
-        }
-    }, [innerValue, error, validate]);
+    const debounceStrategyRunner = createUseDebounceOnChangeStrategy(config.debounce);
+    const onBlurStrategyRunner = createUseOnBlur(isBlurred);
+    const onChangeStrategyRunner = createUseOnChange();
+    const { error, value, setValue, status } = usePreValidator(config.validator, config.asyncValidator);
 
-    useEffect(() => {
-        if (updateOn === 'blur' && isBlurred) {
-            commitValue();
-        }
-    }, [isBlurred, updateOn, commitValue]);
+    const cb = useCallback(() => {
+        //todo fix type
+        setValue(innerValue as any);
+    }, [setValue, innerValue]);
 
-    useEffect(() => {
-        if (updateOn === 'change') {
-            commitValue();
+    // todo behavior for initial value?
+    // if (defaultValue) {
+    //     setValue(defaultValue);
+    // }
+
+    useStrategyRunner([
+        {
+            runner: debounceStrategyRunner,
+            predicate: isDebounceStrategy
+        },
+        {
+            runner: onBlurStrategyRunner,
+            predicate: isOnBlurStrategy
+        },
+        {
+            runner: onChangeStrategyRunner,
+            predicate: isOnchangeStrategy
         }
-    }, [updateOn, commitValue, innerValue]);
+    ], updateOn, cb);
+
 
     const focus = () => {
 
@@ -75,6 +82,7 @@ export function useFormControl<T = any, Errors = string>(config: FormControlConf
         innerValue,
         error,
         blur,
-        focus
+        focus,
+        status
     };
 }

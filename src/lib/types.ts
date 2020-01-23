@@ -3,4 +3,4 @@ import { Dispatch, SetStateAction } from 'react';
 
 export type StateSetter<S> = Dispatch<SetStateAction<S | undefined>>;
 
-export type Maybe<T> = T | undefined;
+export type Maybe<T> = T | undefined | null;

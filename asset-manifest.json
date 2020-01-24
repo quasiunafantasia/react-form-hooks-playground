@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/react-form-hooks-playground/static/css/main.b100e6da.chunk.css",
+    "main.js": "/react-form-hooks-playground/static/js/main.b3a9ef0b.chunk.js",
+    "main.js.map": "/react-form-hooks-playground/static/js/main.b3a9ef0b.chunk.js.map",
+    "runtime-main.js": "/react-form-hooks-playground/static/js/runtime-main.e115f6fd.js",
+    "runtime-main.js.map": "/react-form-hooks-playground/static/js/runtime-main.e115f6fd.js.map",
+    "static/js/2.807c1340.chunk.js": "/react-form-hooks-playground/static/js/2.807c1340.chunk.js",
+    "static/js/2.807c1340.chunk.js.map": "/react-form-hooks-playground/static/js/2.807c1340.chunk.js.map",
+    "index.html": "/react-form-hooks-playground/index.html",
+    "precache-manifest.2a7ed2c89da9527e9db4a623d0fbd47e.js": "/react-form-hooks-playground/precache-manifest.2a7ed2c89da9527e9db4a623d0fbd47e.js",
+    "service-worker.js": "/react-form-hooks-playground/service-worker.js",
+    "static/css/main.b100e6da.chunk.css.map": "/react-form-hooks-playground/static/css/main.b100e6da.chunk.css.map"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.e115f6fd.js",
+    "static/js/2.807c1340.chunk.js",
+    "static/css/main.b100e6da.chunk.css",
+    "static/js/main.b3a9ef0b.chunk.js"
+  ]
+}

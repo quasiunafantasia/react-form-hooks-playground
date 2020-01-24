@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/react-form-hooks-playground/static/css/main.b100e6da.chunk.css",
-    "main.js": "/react-form-hooks-playground/static/js/main.d0b549a6.chunk.js",
-    "main.js.map": "/react-form-hooks-playground/static/js/main.d0b549a6.chunk.js.map",
+    "main.js": "/react-form-hooks-playground/static/js/main.1295cedc.chunk.js",
+    "main.js.map": "/react-form-hooks-playground/static/js/main.1295cedc.chunk.js.map",
     "runtime-main.js": "/react-form-hooks-playground/static/js/runtime-main.e115f6fd.js",
     "runtime-main.js.map": "/react-form-hooks-playground/static/js/runtime-main.e115f6fd.js.map",
     "static/js/2.807c1340.chunk.js": "/react-form-hooks-playground/static/js/2.807c1340.chunk.js",
     "static/js/2.807c1340.chunk.js.map": "/react-form-hooks-playground/static/js/2.807c1340.chunk.js.map",
     "index.html": "/react-form-hooks-playground/index.html",
-    "precache-manifest.fb472433a067fcafa340a8f621765ecf.js": "/react-form-hooks-playground/precache-manifest.fb472433a067fcafa340a8f621765ecf.js",
+    "precache-manifest.cda58fd3297a26b24a65ca867c6830c0.js": "/react-form-hooks-playground/precache-manifest.cda58fd3297a26b24a65ca867c6830c0.js",
     "service-worker.js": "/react-form-hooks-playground/service-worker.js",
     "static/css/main.b100e6da.chunk.css.map": "/react-form-hooks-playground/static/css/main.b100e6da.chunk.css.map"
   },
@@ -16,6 +16,6 @@
     "static/js/runtime-main.e115f6fd.js",
     "static/js/2.807c1340.chunk.js",
     "static/css/main.b100e6da.chunk.css",
-    "static/js/main.d0b549a6.chunk.js"
+    "static/js/main.1295cedc.chunk.js"
   ]
 }

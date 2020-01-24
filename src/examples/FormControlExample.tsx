@@ -41,7 +41,7 @@ export const FormControlExample = () => {
 
     return <div>
         <h2>This is a simple demo for useFormControl react hook</h2>
-        <h3>It applies a synchronous validator of maxlength ${'<'} 6</h3>
+        <h3>It applies a synchronous validator of maxlength {'<'} 6</h3>
         <h3>and an async validator with delay, that checks if value starts with capital letter</h3>
         <br/>
         <h2>Select form control update strategy</h2>

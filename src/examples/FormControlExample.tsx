@@ -36,7 +36,10 @@ export const FormControlExample = () => {
     };
 
     return <div>
-        UPDATE STRATEGY: {updateStrategy}
+        This is a simple demo for useFormControl react hook
+        It applies a synchronous validator of maxlength ${'<'} 6
+        and an async validator with delay, that checks if value starts with capital letter
+        Select form control update strategy
         <div className="radio">
             <label>
                 <input type="radio" value={ON_CHANGE_STRATEGY} checked={updateStrategy === ON_CHANGE_STRATEGY}

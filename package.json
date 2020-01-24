@@ -19,7 +19,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -38,6 +40,8 @@
   },
   "devDependencies": {
     "@types/enzyme": "^3.10.4",
-    "enzyme": "^3.10.0"
-  }
+    "enzyme": "^3.10.0",
+    "gh-pages": "^2.2.0"
+  },
+  "homepage": "https://quasiunafantasia.github.io/react-form-hooks-playground/"
 }

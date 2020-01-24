@@ -10,6 +10,10 @@ import { useFormControl } from '../lib/useFormControl';
 export const FormControlExample = () => {
     const validator = (value: any) => value && value.length > 7 ? 'Too long' : undefined;
     const asyncValidator = (value: any) => new Promise(resolve => setTimeout(() => {
+        if (!value) {
+            resolve();
+            return;
+        }
         if (value && value[0] !== value[0].toUpperCase()) {
             resolve('Should start with capital (async)');
         }
@@ -36,10 +40,11 @@ export const FormControlExample = () => {
     };
 
     return <div>
-        This is a simple demo for useFormControl react hook
-        It applies a synchronous validator of maxlength ${'<'} 6
-        and an async validator with delay, that checks if value starts with capital letter
-        Select form control update strategy
+        <h2>This is a simple demo for useFormControl react hook</h2>
+        <h3>It applies a synchronous validator of maxlength ${'<'} 6</h3>
+        <h3>and an async validator with delay, that checks if value starts with capital letter</h3>
+        <br/>
+        <h2>Select form control update strategy</h2>
         <div className="radio">
             <label>
                 <input type="radio" value={ON_CHANGE_STRATEGY} checked={updateStrategy === ON_CHANGE_STRATEGY}

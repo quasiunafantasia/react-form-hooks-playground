@@ -1,3 +1,3 @@
 export function flushPromises() {
-    return new Promise(resolve => setImmediate(resolve)) as any;
+  return new Promise(resolve => setImmediate(resolve)) as any;
 }

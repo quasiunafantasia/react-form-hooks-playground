@@ -1,5 +1,21 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+[Demo playground](https://quasiunafantasia.github.io/react-form-hooks-playground/)
+
+This is a hook to handle the form state like Angular forms do
+
+###Current features:
+- only single form controls are supported 
+- Configurable validators(sync and async)
+- Change detection strategies support (on change, on blur, with debounce)
+
+### Pending features 
+ - Support for forms as form-controls groups
+ - UI state (touched, dirty, focused etc)
+ - util for validators composition
+ - simpler API for connecting to DOM
+ - Rx.js based version (to show how streams simplify our lives)
+
 ## Available Scripts
 
 In the project directory, you can run:
